@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Dotamusing</title>
     <meta name="description" content="Find curious statistics about your DotA profile">
-    <meta name="author" content="Carlos \"Kurolox\" Gomez">
+    <meta name="author" content='Carlos "Kurolox" Gomez'>
 
     <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -38,17 +38,24 @@
 
         <div class="row main_text">
             <div>
-                <h2>Title</h1></div>
+                <h1>Dotamusing</h1>
+            </div>
         </div>
 
         <div class="row main_text">
-                <div><h4>Description</h2></div>
+            <div>
+                <h3>Want to see some amusing statistics about your DotA profile?</h3>
             </div>
+        </div>
 
         <div class="row text_input">
-            <div class="three columns"><br></div>
+            <div class="three columns">
+                <br>
+            </div>
             <div class="six columns">
-                <input class="u-full-width" placeholder="Test input" id="dotaID" type="text">
+                <form action="{{ url_for('on_input_field') }}" method="POST">
+                    <input class="u-full-width" placeholder="Enter your ID here" name="dotaID" type="text">
+                </form>
             </div>
         </div>
 
@@ -56,7 +63,7 @@
 
     <footer>
         <div class="content_div">
-            WAOW!
+                <p>Made by Kurolox. This is an open source project, <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
         </div>
     </footer>
     <!-- End Document
