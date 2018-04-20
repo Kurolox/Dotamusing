@@ -1,0 +1,42 @@
+html, body{
+    height: 100%;
+}
+
+footer{
+    height: 10%;
+    background-color: lightslategray;
+    text-align: center;
+    margin: auto;
+}
+
+.content_div {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center
+}
+
+.main_element {
+    margin: auto;
+}
+
+.text_input {
+    margin-top: 5%;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+ }
+ 
+ :-moz-placeholder { /* Firefox 18- */
+    text-align: center;  
+ }
+ 
+ ::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;  
+ }
+ 
+ :-ms-input-placeholder {  
+    text-align: center; 
+ }
