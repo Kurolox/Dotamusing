@@ -2,6 +2,8 @@
 
 ## Warning! This is still a work in progress.
 
+![Website screenshot](images/website.jpg)
+
 ### Introduction
 `I NEED NO INTRODUCTION! -Monkey King`
 
