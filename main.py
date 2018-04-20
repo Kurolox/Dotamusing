@@ -15,11 +15,12 @@ def on_input_field():
 
     steamID = get_steam_id(request.form["dotaID"])
 
-    if steamID:
+    if steamID > 0:
         #TODO: Fetch opendota API
+        print(steamID)
         return greeter()
     else:
-        return greeter()
+        return render_template("index.html", error="Failed to get Steam ID. Did you type it correctly?")
 
 
 def get_steam_id(field_input):
@@ -30,8 +31,8 @@ def get_steam_id(field_input):
     
     try:
         if "error" in steamid_request.json().keys():
-            return ""
+            return -1
         else:
-            print(steamid_request.json()["steamID64"])
+            return int(steamid_request.json()["steamID64"]) - 76561197960265728 # Converts ID64 to ID32, which OpenDota uses for the API calls
     except ValueError:
-        return ""
+        return -2
