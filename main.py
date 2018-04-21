@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import requests # For getting Steam ID
 
 
@@ -16,9 +16,7 @@ def on_input_field():
     steamID = get_steam_id(request.form["dotaID"])
 
     if steamID > 0:
-        #TODO: Fetch opendota API
-        print(steamID)
-        return greeter()
+        return redirect(url_for("profile", steamID = steamID), 302)
     else:
         return render_template("index.html", error="Failed to get Steam ID. Did you type it correctly?")
 
@@ -36,3 +34,7 @@ def get_steam_id(field_input):
             return int(steamid_request.json()["steamID64"]) - 76561197960265728 # Converts ID64 to ID32, which OpenDota uses for the API calls
     except ValueError:
         return -2
+
+@app.route("/<int:steamID>")
+def profile(steamID):
+    return render_template("index.html")
