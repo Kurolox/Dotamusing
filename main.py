@@ -37,4 +37,17 @@ def get_steam_id(field_input):
 
 @app.route("/<int:steamID>")
 def profile(steamID):
-    return render_template("index.html")
+    user_profile = get_user_profile(steamID)
+    if "profile" not in user_profile.keys(): # If OpenDota API couldn't fetch any info, remove the dict
+        user_profile = None
+    #TODO: Add opendota API calls and stuff
+    return render_template("profile.html", profile=user_profile)
+
+def get_user_profile(steamID):
+    try:
+        return requests.get(f"https://api.opendota.com/api/players/{steamID}").json()
+    except ValueError:
+        return None
+
+if __name__ == '__main__':
+    app.run()
