@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import requests # For getting Steam ID
 
 
@@ -15,11 +15,10 @@ def on_input_field():
 
     steamID = get_steam_id(request.form["dotaID"])
 
-    if steamID:
-        #TODO: Fetch opendota API
-        return greeter()
+    if steamID > 0:
+        return redirect(url_for("profile", steamID = steamID), 302)
     else:
-        return greeter()
+        return render_template("index.html", error="Failed to get Steam ID. Did you type it correctly?")
 
 
 def get_steam_id(field_input):
@@ -30,8 +29,25 @@ def get_steam_id(field_input):
     
     try:
         if "error" in steamid_request.json().keys():
-            return ""
+            return -1
         else:
-            print(steamid_request.json()["steamID64"])
+            return int(steamid_request.json()["steamID64"]) - 76561197960265728 # Converts ID64 to ID32, which OpenDota uses for the API calls
     except ValueError:
-        return ""
+        return -2
+
+@app.route("/<int:steamID>")
+def profile(steamID):
+    user_profile = get_user_profile(steamID)
+    if "profile" not in user_profile.keys(): # If OpenDota API couldn't fetch any info, remove the dict
+        user_profile = None
+    #TODO: Add opendota API calls and stuff
+    return render_template("profile.html", profile=user_profile)
+
+def get_user_profile(steamID):
+    try:
+        return requests.get(f"https://api.opendota.com/api/players/{steamID}").json()
+    except ValueError:
+        return None
+
+if __name__ == '__main__':
+    app.run()
