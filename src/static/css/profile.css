@@ -1,0 +1,52 @@
+body {
+    background-color: #1F2421;
+}
+
+/* STICKY FOOTER */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.footer-text {
+    margin: auto;
+    color: white;
+    text-align: center;
+}
+
+/* STICKY FOOTER END */
+
+/* TOP PROFILE DISPLAY */
+
+.top-profile {
+    margin: 2% auto;
+    padding: 1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #216869;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-rank{
+    margin-bottom: 0;
+}
