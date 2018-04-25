@@ -23,7 +23,7 @@ footer {
 
 .footer-text {
     margin: auto;
-    color: white;
+    color: #DCE1DE;
     text-align: center;
 }
 
@@ -36,6 +36,7 @@ footer {
     padding: 1%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #216869;
+    color: #DCE1DE;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,6 +48,8 @@ footer {
     align-items: center;
 }
 
-.profile-rank{
+.profile-rank {
     margin-bottom: 0;
 }
+
+/* TOP PROFILE DISPLAY END */
