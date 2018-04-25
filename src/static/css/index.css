@@ -1,0 +1,83 @@
+/* BACKGROUND IMAGE */
+
+.bg {
+  background-image: url("../images/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* BACKGROUND IMAGE END */
+
+/* STICKY FOOTER */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.footer-text {
+  margin: auto;
+  color: white;
+  text-align: center;
+}
+
+/* STICKY FOOTER END */
+
+/* MAIN CONTENT */
+
+.main-text {
+  text-align: center;
+  color: white;
+  text-shadow: #111111 0px 0px 4px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-field{
+  margin-top: 5em;
+}
+
+@media screen and (max-width: 550px){
+
+  .input-field{
+    margin-top: 0;
+  }
+}
+/* MAIN CONTENT END */
+
+/* TEXT INPUT PLACEHOLDER CENTER */
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}
+
+/* TEXT INPUT PLACEHOLDER CENTER END*/
