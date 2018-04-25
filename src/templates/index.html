@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Dotamusing</title>
+    <meta name="description" content="Find curious statistics about your DotA profile">
+    <meta name="author" content='Carlos "Kurolox" Gomez'>
+
+    <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css')}}">
+    <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
+
+</head>
+
+<body class="bg">
+
+    <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <div class="container main">
+
+        <div class="row">
+            <h1>Dotamusing</h1>
+        </div>
+
+        <div class="row ">
+            <h3>Want to see some amusing statistics about your DotA profile?</h3>
+        </div>
+
+        <div class="row">
+            <div class="three columns">
+                <br>
+            </div>
+            <div class="six columns">
+                <form action="{{ url_for('on_input_field') }}" method="POST">
+                    <input class="u-full-width" placeholder="Enter your ID here" name="dotaID" type="text">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="footer-text">Made by Kurolox. This is an open source project,
+            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
+    </footer>
+    <!-- End Document
+  ––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>
