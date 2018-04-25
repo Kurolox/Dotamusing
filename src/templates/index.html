@@ -22,47 +22,46 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/customProfile.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
     <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
 
 </head>
 
-<body>
+<body class="bg">
 
     <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <div class="container">
-        <div class="row topseparator">
-            <div class="two columns">
-                {% if profile %}
-                <img src="{{ profile['profile']['avatarfull'] }}" />
-                {% else %}
-                <p>Couldn't load profile image</p>
-                {% endif %}
-            </div>
+    <div class="container main">
 
-            <div class="one column">
+        <div class="row main-text">
+            <h1>Dotamusing</h1>
+        </div>
+
+        <div class="row main-text">
+            <h3>Want to see some amusing statistics about your DotA profile?</h3>
+        </div>
+
+        <div class="row">
+            <div class="two columns">
                 <br>
             </div>
-            <div class="three columns">
-                {% if profile %}
-                <h2>{{ profile["profile"]["personaname"] }}</h2>
-                {% endif %}
+            <div class="eight columns">
+                <form action="{{ url_for('on_input_field') }}" method="POST">
+                    <input class="u-full-width input-field" placeholder="Enter your ID here" name="dotaID" type="text">
+                </form>
             </div>
         </div>
     </div>
 
     <footer>
-        <div>
-            <p>Made by Kurolox. This is an open source project,
-                <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
-        </div>
+        <p class="footer-text">Made by Kurolox. This is an open source project,
+            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
     </footer>
     <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  ––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 
 </html>

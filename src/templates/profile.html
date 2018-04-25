@@ -22,48 +22,43 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/customGreeter.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customProfile.css')}}">
     <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
 
 </head>
 
-<body class="bg">
+<body>
 
     <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <div class="container content_div">
-
-        <div class="row main_text">
-            <div>
-                <h1>Dotamusing</h1>
+    <div class="container">
+        <div class="row topseparator">
+            <div class="two columns u-max-full-width">
+                {% if profile %}
+                <img src="{{ profile['profile']['avatarfull'] }}" />
+                {% else %}
+                <p>Couldn't load profile image</p>
+                {% endif %}
             </div>
-        </div>
 
-        <div class="row main_text">
-            <div>
-                <h3>Want to see some amusing statistics about your DotA profile?</h3>
-            </div>
-        </div>
-
-        <div class="row text_input">
-            <div class="three columns">
+            <div class="one column">
                 <br>
             </div>
-            <div class="six columns">
-                <form action="{{ url_for('on_input_field') }}" method="POST">
-                    <input class="u-full-width" placeholder="Enter your ID here" name="dotaID" type="text">
-                </form>
+            <div class="three columns">
+                {% if profile %}
+                <h2>{{ profile["profile"]["personaname"] }}</h2>
+                {% endif %}
             </div>
         </div>
-
     </div>
 
     <footer>
-        <div class="content_div">
-                <p>Made by Kurolox. This is an open source project, <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
+        <div>
+            <p>Made by Kurolox. This is an open source project,
+                <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
         </div>
     </footer>
     <!-- End Document
