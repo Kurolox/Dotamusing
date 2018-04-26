@@ -22,7 +22,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/customProfile.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
     <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
@@ -34,32 +34,36 @@
     <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <div class="container">
-        <div class="row topseparator">
-            <div class="two columns u-max-full-width">
-                {% if profile %}
-                <img src="{{ profile['profile']['avatarfull'] }}" />
-                {% else %}
-                <p>Couldn't load profile image</p>
-                {% endif %}
-            </div>
+    <div class="container top-profile">
 
-            <div class="one column">
-                <br>
-            </div>
-            <div class="three columns">
-                {% if profile %}
-                <h2>{{ profile["profile"]["personaname"] }}</h2>
-                {% endif %}
-            </div>
+        <!-- IMG / NAME / RANK-->
+
+        <div class="row one-third column profile-image">
+            <img src="static/images/default-avatar.jpg">
+        </div>
+        <div class="row two-thirds column">
+            <h1 class="profile-name">Lorem ipsum</h1>
+            <h3 class="profile-rank">Alea jacta est.</h3>
         </div>
     </div>
 
-    <footer>
-        <div>
-            <p>Made by Kurolox. This is an open source project,
-                <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
+    <div class="container main-content">
+        <div class="one-half column left-column">
+            <div class="box">
+                <h3 class="box-title">
+                    I'm the title!
+                </h3>
+                <p class="box-content">
+                    And I'm the content!
+                </p>
         </div>
+
+        <div class="one-half column right-column">
+        </div>
+    </div>
+    <footer>
+        <p class="footer-text">Made by Kurolox. This is an open source project,
+            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
     </footer>
     <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

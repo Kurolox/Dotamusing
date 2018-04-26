@@ -54,6 +54,11 @@
                 </form>
             </div>
         </div>
+        {% if error %}
+        <div class="row error-message">
+            <h5>{{ error }}</h5>
+        </div>
+        {% endif %}
     </div>
 
     <footer>

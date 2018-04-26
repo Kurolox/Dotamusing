@@ -50,16 +50,22 @@ footer {
   justify-content: center;
 }
 
-.input-field{
+.input-field {
   margin-top: 5em;
 }
 
-@media screen and (max-width: 550px){
+.error-message {
+  text-align: center;
+  color: red;
+  text-shadow: #111111 1px 1px 5px;
+}
 
-  .input-field{
+@media screen and (max-width: 550px) {
+  .input-field {
     margin-top: 0;
   }
 }
+
 /* MAIN CONTENT END */
 
 /* TEXT INPUT PLACEHOLDER CENTER */
@@ -68,16 +74,18 @@ footer {
   text-align: center;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-  text-align: center;  
+:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
-  text-align: center;  
+::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
 }
 
-:-ms-input-placeholder {  
-  text-align: center; 
+:-ms-input-placeholder {
+  text-align: center;
 }
 
 /* TEXT INPUT PLACEHOLDER CENTER END*/
