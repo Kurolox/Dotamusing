@@ -49,7 +49,7 @@
             {% else %}
             <h1 class="profile-name">Undefined</h1>
             {% endif %}
-            <h3 class="profile-rank">Alea jacta est.</h3>
+           <!-- <h3 class="profile-rank">Alea jacta est.</h3> -->
         </div>
     </div>
 
@@ -61,7 +61,9 @@
                 </h3>
                 <div class="box-content">
                     {% if profile.match_history %}
-                    <h2 class="box-flask">{{ profile.match_history.totaltime }} hours</h2>
+                    <div class="box-img-text">
+                        <h2 class="box-flask">{{ profile.match_history.totaltime }} hours</h2>
+                    </div>
                     {% endif %}
                     <p> in total, over the course of {{profile.match_history.totalgames}} games. Your match length average is
                         {{ profile.match_history.averagetime}} minutes.</p>
@@ -76,10 +78,12 @@
                 </h3>
                 <div class="box-content">
                     {% if profile.match_history.rarestinfo %}
-                    <h2 class="box-flask">{{ profile.match_history.rarestinfo.raresthero }}?</h2>
+                    <h2 class="box-flask">{{ profile.match_history.rarestinfo.heroname }}?</h2>
                     {% endif %}
                     <p> The last time you saw it on one of your games was on {{ profile.match_history.rarestinfo.date }}, and
-                        that was {{ profile.match_history.rarestinfo.timediff }} days ago! <a href="https://www.opendota.com/matches/{{ profile.match_history.rarestinfo.gameID }}">Here's the link to the game.</a></p>
+                        that was {{ profile.match_history.rarestinfo.timediff }} days ago!
+                        <a href="https://www.opendota.com/matches/{{ profile.match_history.rarestinfo.gameID }}">Here's the link to the game.</a>
+                    </p>
                 </div>
             </div>
         </div>

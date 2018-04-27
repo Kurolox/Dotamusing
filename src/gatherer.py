@@ -49,7 +49,7 @@ def gather_rarest(match_history, api_key):
     rarest_dict["timediff"] = format(((int(datetime.now().timestamp(
     ))) - rarest_dict["game_json"]["start_time"]) / (3600 * 24), ".1f")
     rarest_dict["heroname"] = [hero for hero in requests.get(
-        f"https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key={api_key}&language=en_us&format=JSON").json()["heroes"] if hero["id"] == rarest_dict["raresthero"]][0]
+        f"https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key={api_key}&language=en_us&format=JSON").json()["result"]["heroes"] if hero["id"] == rarest_dict["raresthero"]][0]["localized_name"]
     return rarest_dict
 
 
