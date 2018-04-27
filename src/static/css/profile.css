@@ -48,6 +48,9 @@ footer {
     align-items: center;
 }
 
+.avatar {
+    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.75);
+}
 .profile-rank {
     margin-bottom: 0;
 }
@@ -55,26 +58,39 @@ footer {
 /* TOP PROFILE DISPLAY END */
 
 /* MAIN CONTENT */
-.left-column, .right-column{
+
+.left-column, .right-column {
     display: flex;
     flex-direction: column;
 }
 
-.box{
+.box {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #216869;
     color: #DCE1DE;
     margin-bottom: 6%;
 }
 
-.box-title{
+.box-title {
     background-color: #49A078;
     padding: 1.5rem;
     margin-bottom: 0;
 }
 
-.box-content{
+.box-content {
     padding: 1.5rem;
     margin-bottom: 0;
 }
+
+.box-flask {
+    text-align: center;
+}
 /* MAIN CONTENT END */
+
+/* FIX FOR SMALL DISPLAYS */
+
+@media (max-width: 550px) {
+    .top-profile {
+        margin-bottom: 5%;
+    }
+}
