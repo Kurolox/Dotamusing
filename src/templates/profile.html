@@ -39,11 +39,17 @@
         <!-- IMG / NAME / RANK-->
 
         <div class="row one-third column profile-image">
-            <img src="static/images/default-avatar.jpg">
+            {% if profile.profile %}
+            <img class="avatar" src="{{ profile.profile.profile.avatarfull }}"> {% else %}
+            <img class="avatar" src="static/images/default-avatar.jpg"> {% endif %}
         </div>
         <div class="row two-thirds column">
-            <h1 class="profile-name">Lorem ipsum</h1>
-            <h3 class="profile-rank">Alea jacta est.</h3>
+            {% if profile.profile %}
+            <h1 class="profile-name">{{ profile.profile.profile.personaname }}</h1>
+            {% else %}
+            <h1 class="profile-name">Undefined</h1>
+            {% endif %}
+            <!-- <h3 class="profile-rank">Alea jacta est.</h3> -->
         </div>
     </div>
 
@@ -51,19 +57,47 @@
         <div class="one-half column left-column">
             <div class="box">
                 <h3 class="box-title">
-                    I'm the title!
+                    You've played for
                 </h3>
-                <p class="box-content">
-                    And I'm the content!
-                </p>
+                <div class="box-content">
+                    {% if profile.match_history %}
+                    <div class="box-img-text">
+                        <h2 class="box-flask">{{ profile.match_history.totaltime }} hours</h2>
+                    </div>
+                    {% endif %}
+                    <p class="box-description"> in total, over the course of {{profile.match_history.totalgames}} games. Your match length average is
+                        {{ profile.match_history.averagetime}} minutes.</p>
+                </div>
+            </div>
         </div>
 
         <div class="one-half column right-column">
+            <div class="box">
+                <h3 class="box-title">
+                    Remember the last time you saw...
+                </h3>
+                <div class="box-content">
+                    {% if profile.match_history.rarestinfo %}
+                    <div class="box-flask image-and-text">
+                        <img class="portrait-image" src="{{ profile.match_history.rarestinfo.portrait }}">
+                        <h2 class="box-flask">{{ profile.match_history.rarestinfo.heroinfo.localized_name }}?</h2>
+                    </div>
+                    {% endif %}
+                    <p class="box-description"> The last time you saw it on one of your games was on {{ profile.match_history.rarestinfo.date }}, and
+                        that was {{ profile.match_history.rarestinfo.timediff }} days ago!
+                        <a href="https://www.opendota.com/matches/{{ profile.match_history.rarestinfo.gameID }}">Here's the link to the game.</a>
+                    </p>
+                </div>
+            </div>
         </div>
+
     </div>
     <footer>
         <p class="footer-text">Made by Kurolox. This is an open source project,
-            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation.</p>
+            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation. This uses the OpenDota
+            API for fetching the data.
+            <a href="https://www.opendota.com/api-keys">More info here.</a>
+        </p>
     </footer>
     <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
