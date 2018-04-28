@@ -1,16 +1,12 @@
 import requests
-from configparser import ConfigParser
 from datetime import datetime
 
 
 def fetch_data(steamID):
     """Calls all the other functions that fetch relevant info for the profile, and formats them in a dict."""
-    config_file = ConfigParser()
-    config_file.read(["config.ini", "src/config.ini"])
-    api_key = config_file.get("SteamWebApi", "ApiKey")
     data_dict = {}
     data_dict["profile"] = get_user_profile(steamID)
-    data_dict["match_history"] = full_match_history(steamID, api_key)
+    data_dict["match_history"] = full_match_history(steamID)
     return data_dict
 
 
@@ -22,7 +18,7 @@ def get_user_profile(steamID):
         return {}
 
 
-def full_match_history(steamID, api_key):
+def full_match_history(steamID):
     full_match_history = {}
     match_history = requests.get(
         f"https://api.opendota.com/api/players/{steamID}/matches?project=heroes").json()
@@ -31,12 +27,12 @@ def full_match_history(steamID, api_key):
     full_match_history["totalgames"] = len(match_history)
     full_match_history["averagetime"] = format(
         60 * float(full_match_history["totaltime"]) / full_match_history["totalgames"], ".1f")
-    full_match_history["rarestinfo"] = gather_rarest(match_history, api_key)
+    full_match_history["rarestinfo"] = gather_rarest(match_history)
 
     return full_match_history
 
 
-def gather_rarest(match_history, api_key):
+def gather_rarest(match_history):
     """Generates a dict with info to display regarding the hero you haven't seen for the longest time"""
     rarest_dict = {}
     rarest_dict["raresthero"] = find_rarest_hero(match_history)
@@ -48,8 +44,8 @@ def gather_rarest(match_history, api_key):
         rarest_dict["game_json"]["start_time"]).strftime("%d %B, %Y")
     rarest_dict["timediff"] = format(((int(datetime.now().timestamp(
     ))) - rarest_dict["game_json"]["start_time"]) / (3600 * 24), ".1f")
-    rarest_dict["heroname"] = [hero for hero in requests.get(
-        f"https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key={api_key}&language=en_us&format=JSON").json()["result"]["heroes"] if hero["id"] == rarest_dict["raresthero"]][0]["localized_name"]
+    rarest_dict["heroinfo"] = requests.get("https://raw.githubusercontent.com/odota/dotaconstants/master/build/heroes.json").json()[str(rarest_dict["raresthero"])]
+    rarest_dict["portrait"] = f"http://cdn.dota2.com/apps/dota2/images/heroes/{rarest_dict['heroinfo']['img'].split('/')[-1]}"
     return rarest_dict
 
 

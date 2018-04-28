@@ -49,8 +49,9 @@ footer {
 }
 
 .avatar {
-    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.75);
 }
+
 .profile-rank {
     margin-bottom: 0;
 }
@@ -84,6 +85,23 @@ footer {
 
 .box-flask {
     text-align: center;
+    margin-bottom: 0;
+}
+
+.image-and-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.portrait-image {
+    height: 5rem;
+    margin-right: 2rem;
+}
+
+.box-description {
+    margin-top: 2rem;
 }
 /* MAIN CONTENT END */
 
