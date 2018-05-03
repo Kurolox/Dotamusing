@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests  # For getting Steam ID
-from gatherer import fetch_data
+from gatherer import user
 
 
 app = Flask(__name__)
@@ -43,11 +43,7 @@ def get_steam_id(field_input):
 
 @app.route("/<int:steamID>")
 def profile(steamID):
-    user_data = fetch_data(steamID)
-    if "profile" not in user_data.keys():  # If OpenDota API couldn't fetch any info, remove the dict
-        user_data = None
-    # TODO: Add opendota API calls and stuff
-    return render_template("profile.html", profile=user_data)
+    return render_template("profile.html", profile=user(steamID))
 
 
 if __name__ == '__main__':
