@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests  # For getting Steam ID
 from gatherer import user
+import json
 
 
 app = Flask(__name__)
@@ -44,7 +45,6 @@ def get_steam_id(field_input):
 @app.route("/<int:steamID>")
 def profile(steamID):
     return render_template("profile.html", profile=user(steamID))
-
 
 if __name__ == '__main__':
     app.run()

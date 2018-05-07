@@ -1,33 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'template.html' %} {% block scripts %}
+<script type="text/javascript">
+    var test = 3;
+</script>
 
-<head>
-
-    <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta charset="utf-8">
-    <title>Dotamusing</title>
-    <meta name="description" content="Find curious statistics about your DotA profile">
-    <meta name="author" content='Carlos "Kurolox" Gomez'>
-
-    <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-    <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
-    <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
-
-</head>
+<script type="text/javascript">
+    console.log(test);
+</script>{% endblock %} {% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"> {% endblock %} {% block body %}
 
 <body class="bg">
 
@@ -71,5 +50,4 @@
     <!-- End Document
   ––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
-
-</html>
+{% endblock %}
