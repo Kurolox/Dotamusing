@@ -1,109 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'profile_template.html' %}
 
-<head>
-
-    <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta charset="utf-8">
-    <title>Dotamusing</title>
-    <meta name="description" content="Find curious statistics about your DotA profile">
-    <meta name="author" content='Carlos "Kurolox" Gomez'>
-
-    <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-    <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
-    <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
-
-</head>
-
-<body>
+{% block body %}
 
     <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <div class="container top-profile">
+  <div class="container top-profile">
 
-        <!-- IMG / NAME / RANK-->
+    <!-- IMG / NAME / RANK-->
 
-        <div class="row one-third column profile-image">
-            {% if profile %}
-            <img class="avatar" src="{{ profile.get_avatar() }}"> {% else %}
-            <img class="avatar" src="static/images/default-avatar.jpg"> {% endif %}
-        </div>
-        <div class="row two-thirds column">
-            {% if profile %}
-            <h1 class="profile-name">{{ profile.get_username() }}</h1>
-            {% else %}
-            <h1 class="profile-name">Undefined</h1>
-            {% endif %}
-            <!-- <h3 class="profile-rank">Alea jacta est.</h3> -->
+    <div class="row one-third column profile-image">
+        {% if profile %}
+        <img class="avatar" src="{{ profile.get_avatar() }}"> {% else %}
+        <img class="avatar" src="static/images/default-avatar.jpg"> {% endif %}
+    </div>
+    <div class="row two-thirds column">
+        {% if profile %}
+        <h1 class="profile-name">{{ profile.get_username() }}</h1>
+        {% else %}
+        <h1 class="profile-name">Undefined</h1>
+        {% endif %}
+        <!-- <h3 class="profile-rank">Alea jacta est.</h3> -->
+    </div>
+</div>
+
+<div class="container main-content">
+    <div class="one-half column left-column">
+        <div class="box">
+            <h3 class="box-title">
+                You've played for
+            </h3>
+            <div class="box-content">
+                {% if profile %}
+                <div class="box-img-text">
+                    <h2 class="box-flask">{{ profile.total_playtime() }} hours</h2>
+                </div>
+                {% endif %}
+                <p class="box-description"> in total, over the course of {{ profile.match_count() }} games. Your match length average is
+                    {{ profile.average_playtime() }} minutes.</p>
+            </div>
         </div>
     </div>
 
-    <div class="container main-content">
-        <div class="one-half column left-column">
-            <div class="box">
-                <h3 class="box-title">
-                    You've played for
-                </h3>
-                <div class="box-content">
-                    {% if profile %}
-                    <div class="box-img-text">
-                        <h2 class="box-flask">{{ profile.total_playtime() }} hours</h2>
-                    </div>
-                    {% endif %}
-                    <p class="box-description"> in total, over the course of {{ profile.match_count() }} games. Your match length average is
-                        {{ profile.average_playtime() }} minutes.</p>
+    <div class="one-half column right-column">
+        <div class="box">
+            <h3 class="box-title">
+                Remember the last time you saw...
+            </h3>
+            <div class="box-content">
+                {% if profile %}
+                {% set rarest_hero = profile.find_rarest_hero() %}
+                <div class="box-flask image-and-text">
+                    <img class="portrait-image" src="{{ rarest_hero.get_hero_portrait() }}">
+                    <h2 class="box-flask">{{ rarest_hero.get_hero_name() }}?</h2>
                 </div>
+
+                {% set most_recent_match = profile.get_recent_match(profile.find_rarest_hero()) %}
+                <p class="box-description"> The last time you saw it on one of your games was on {{ most_recent_match.get_match_date() }}, and
+                    that was {{ most_recent_match.get_match_time_difference() }} days ago!
+                    <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID }}">Here's the link to the game.</a>
+                </p>
+                {% endif %}
             </div>
         </div>
-
-        <div class="one-half column right-column">
-            <div class="box">
-                <h3 class="box-title">
-                    Remember the last time you saw...
-                </h3>
-                <div class="box-content">
-                    {% if profile %}
-                    {% set rarest_hero = profile.find_rarest_hero() %}
-                    <div class="box-flask image-and-text">
-                        <img class="portrait-image" src="{{ rarest_hero.get_hero_portrait() }}">
-                        <h2 class="box-flask">{{ rarest_hero.get_hero_name() }}?</h2>
-                    </div>
-
-                    {% set most_recent_match = profile.get_recent_match(profile.find_rarest_hero()) %}
-                    <p class="box-description"> The last time you saw it on one of your games was on {{ most_recent_match.get_match_date() }}, and
-                        that was {{ most_recent_match.get_match_time_difference() }} days ago!
-                        <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID }}">Here's the link to the game.</a>
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
     </div>
-    <footer>
-        <p class="footer-text">Made by Kurolox. This is an open source project,
-            <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation. This uses the OpenDota
-            API for fetching the data.
-            <a href="https://www.opendota.com/api-keys">More info here.</a>
-        </p>
-    </footer>
-    <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body>
 
-</html>
+</div>
+<footer>
+    <p class="footer-text">Made by Kurolox. This is an open source project,
+        <a href="https://github.com/Kurolox/Dotamusing">and the source is on GitHub</a>. DotA 2 is a registered trademark of Valve Corporation. This uses the OpenDota
+        API for fetching the data.
+        <a href="https://www.opendota.com/api-keys">More info here.</a>
+    </p>
+</footer>
+<!-- End Document
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+{% endblock %}
