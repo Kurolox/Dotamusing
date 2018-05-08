@@ -1,0 +1,11 @@
+{% macro leftblock(title='', content='', description='') -%}
+<div class="box">
+    <h3 class="box-title">{{ title }}</h3>
+    <div class="box-content">
+        <div class="box-img-text">
+            <h2 class="box-flask">{{ content }}</h2>
+        </div>
+        <p class="box-description">{{ description }}</p>
+    </div>
+</div>
+{%- endmacro %}

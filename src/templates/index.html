@@ -1,11 +1,4 @@
-{% extends 'template.html' %} {% block scripts %}
-<script type="text/javascript">
-    var test = 3;
-</script>
-
-<script type="text/javascript">
-    console.log(test);
-</script>{% endblock %} {% block css %}
+{% extends 'template.html' %} {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"> {% endblock %} {% block body %}
 
 <body class="bg">

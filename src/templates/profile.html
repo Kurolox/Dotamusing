@@ -1,4 +1,4 @@
-{% extends 'template.html' %} {% block scripts %}
+{% extends 'template.html' %} {% import 'macros.html' as macro %} {% block scripts %}
 <script src="{{url_for('static', filename='js/test.js')}}"></script> {% endblock %} {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}"> {% endblock %} {% block body %}
 
@@ -26,7 +26,7 @@
     </div>
 
     <div class="container main-content">
-        <div class="one-half column left-column">
+        <div class="one-half column">
             <div class="box">
                 <h3 class="box-title">
                     You've played for
@@ -43,28 +43,39 @@
             </div>
         </div>
 
-        <div class="one-half column right-column">
+
+
+        <div class="one-half column">
             <div class="box">
                 <h3 class="box-title">
                     Remember the last time you saw...
                 </h3>
                 <div class="box-content">
-                    {% if profile %} {% set rarest_hero = profile.find_rarest_hero() %}
+                    {% if profile %} {% set rarest_hero_list = profile.find_rarest_heroes()[-5:][::-1] %}
                     <div class="box-flask image-and-text">
-                        <img class="portrait-image" src="{{ rarest_hero.get_hero_portrait() }}">
-                        <h2 class="box-flask">{{ rarest_hero.get_hero_name() }}?</h2>
+                        <img class="portrait-image" src="{{ rarest_hero_list[0].get_hero_portrait() }}">
+                        <h2 class="box-flask">{{ rarest_hero_list[0].get_hero_name() }}?</h2>
                     </div>
-
-                    {% set most_recent_match = profile.get_recent_match(profile.find_rarest_hero()) %}
+                    {% set most_recent_match = profile.get_recent_match(rarest_hero_list[0]) %}
                     <p class="box-description"> The last time you saw it on one of your games was on {{ most_recent_match.get_match_date() }}, and that
                         was {{ most_recent_match.get_match_time_difference() }} days ago!
-                        <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID }}">Here's the link to the game.</a>
+                        <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID() }}">Here's the link to the game.</a>
                     </p>
+                    <ul class="box-list">
+                        {% for hero in rarest_hero_list[1:] %}
+                        <a href="{{profile.get_recent_match(hero).get_opendota_link()}}">
+                            <li class="box-list-element">
+                                <img class="portrait-image" src="{{ hero.get_hero_portrait() }}">
+                                <h5>{{ hero.get_hero_name() }} ({{ profile.get_recent_match(hero).get_match_time_difference()
+                                    }} days)</h4>
+                            </li>
+                        </a>
+                        {% endfor %}
+                    </ul>
                     {% endif %}
                 </div>
             </div>
         </div>
-
     </div>
     <footer>
         <p class="footer-text">Made by Kurolox. This is an open source project,

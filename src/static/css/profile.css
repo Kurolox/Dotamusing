@@ -60,11 +60,6 @@ footer {
 
 /* MAIN CONTENT */
 
-.left-column, .right-column {
-    display: flex;
-    flex-direction: column;
-}
-
 .box {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #216869;
@@ -98,11 +93,27 @@ footer {
 .portrait-image {
     height: 5rem;
     margin-right: 2rem;
+    box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.75);
 }
 
 .box-description {
     margin-top: 2rem;
 }
+
+.box-list{
+    list-style-type: none;
+}
+
+.box-list-element{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+h5{
+    margin-bottom: 0;
+}
+
 /* MAIN CONTENT END */
 
 /* FIX FOR SMALL DISPLAYS */

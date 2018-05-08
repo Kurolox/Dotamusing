@@ -50,8 +50,8 @@ class user():
                 if game["heroes"][hero_slot]["hero_id"] == hero.get_heroID():
                     return match(game["match_id"])
     
-    def find_rarest_hero(self):
-        """Checks which hero haven't you seen in one of your games (in both teams) for the longest time"""
+    def find_rarest_heroes(self):
+        """Checks which heroes haven't you seen in one of your games (in both teams) for the longest time"""
         hero_id_list = []
         for game in self.get_match_history():
             for hero_slot in game["heroes"]:
@@ -60,9 +60,9 @@ class user():
                     hero_id_list.append(game["heroes"][hero_slot]["hero_id"])
         try: # If there's a 0 in the list, remove it.
             hero_id_list.remove(0)
-        except ValueError:
+        except ValueError: # If there isn't, just ignore it.
             pass
-        return hero(hero_id_list[-1])
+        return [hero(rare_hero) for rare_hero in hero_id_list]
 
 
 
