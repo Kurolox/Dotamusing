@@ -1,6 +1,8 @@
 import requests
 from datetime import datetime
 from collections import defaultdict
+import json
+from os.path import realpath, dirname
 
 
 class user():
@@ -77,12 +79,9 @@ class user():
 
 class hero():
     def __init__(self, heroID):
-        self._constant_data = requests.get(
-            "https://raw.githubusercontent.com/odota/dotaconstants/master/build/heroes.json").json()[str(heroID)]
-        print("GITHUB API Request made (match hero._constant_data)")
-
+        with open(f"{dirname(realpath(__file__))}/static/json/heroes.json", "r") as hero_json:
+            self._constant_data = json.load(hero_json)[str(heroID)]
         
-
     def get_constant_data(self):
         """returns the data gathered by opendota about the hero."""
         return self._constant_data
