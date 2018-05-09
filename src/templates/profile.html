@@ -60,7 +60,7 @@
                         {% for least_hero in least_seen_list[1:] %}
                         <li class="box-list-element">
                             <img class="portrait-image" src="{{ least_hero[0].get_hero_portrait() }}">
-                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ least_seen_list[0][1] / profile.match_count() }}%)</h4>
+                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ least_hero[1] / profile.match_count() }}%)</h4>
                         </li>
                         {% endfor %}
                     </ul>
