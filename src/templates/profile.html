@@ -41,6 +41,31 @@
                         }} minutes.</p>
                 </div>
             </div>
+
+
+            <div class="box">
+                {% set least_seen_list = profile.find_least_seen_heroes()[:5] %}
+                <h3 class="box-title">
+                    You don't see them very often
+                </h3>
+                <div class="box-content">
+                    <div class="box-flask image-and-text">
+                        <img class="portrait-image" src="{{ least_seen_list[0][0].get_hero_portrait() }}">
+                        <h2 class="box-flask">{{ least_seen_list[0][0].get_hero_name() }}</h2>
+                    </div>
+                    <p class="box-description"> Has been a rare sight in your games. In all of your DotA games, you've only seen it on {{ least_seen_list[0][1]
+                        }} of your games ({{least_seen_list[0][1] / profile.match_count() }}% of your total games). Here's a list with other heroes you don't see a lot.
+                    </p>
+                    <ul class="box-list">
+                        {% for least_hero in least_seen_list[1:] %}
+                        <li class="box-list-element">
+                            <img class="portrait-image" src="{{ least_hero[0].get_hero_portrait() }}">
+                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ least_seen_list[0][1] / profile.match_count() }}%)</h4>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
 
 

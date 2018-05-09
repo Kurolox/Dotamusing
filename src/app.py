@@ -47,4 +47,5 @@ def profile(steamID):
 
 
 if __name__ == '__main__':
+    update_local_files()
     app.run()
