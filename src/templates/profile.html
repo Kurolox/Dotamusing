@@ -54,13 +54,13 @@
                         <h2 class="box-flask">{{ least_seen_list[0][0].get_hero_name() }}</h2>
                     </div>
                     <p class="box-description"> Has been a rare sight in your games. In all of your DotA games, you've only seen it on {{ least_seen_list[0][1]
-                        }} of your games ({{least_seen_list[0][1] / profile.match_count() }}% of your total games). Here's a list with other heroes you don't see a lot.
+                        }} of your games ({{ (least_seen_list[0][1] / profile.match_count() * 100) | round(2) }}% of your total games). Here's a list with other heroes you don't see a lot.
                     </p>
                     <ul class="box-list">
                         {% for least_hero in least_seen_list[1:] %}
                         <li class="box-list-element">
                             <img class="portrait-image" src="{{ least_hero[0].get_hero_portrait() }}">
-                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ least_hero[1] / profile.match_count() }}%)</h4>
+                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ (least_hero[1] / profile.match_count() * 100)  | round(2) }}%)</h4>
                         </li>
                         {% endfor %}
                     </ul>
