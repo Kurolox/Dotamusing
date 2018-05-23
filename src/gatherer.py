@@ -1,15 +1,21 @@
 import requests
 from datetime import datetime
+from collections import defaultdict
+import json
+from os.path import realpath, dirname
 
 
 class user():
     def __init__(self, steamID):
         self._profile = requests.get(
             f"https://api.opendota.com/api/players/{steamID}").json()
+        print("API Request made (User self._profile)")
         self._match_history = requests.get(
+            f"https://api.opendota.com/api/players/{steamID}/matches").json()
+        print("API Request made (User self._match_history)")
+        self._hero_history = requests.get(
             f"https://api.opendota.com/api/players/{steamID}/matches?project=heroes").json()
-
-
+        print("API Request made (User self._hero_history)")
 
     def get_profile(self):
         """Returns the OpenDota profile data of the user."""
@@ -18,9 +24,14 @@ class user():
     def get_steamID(self):
         """Returns the Steam32 ID of the user."""
         return self.get_profile()["account_id"]
+
     def get_match_history(self):
         """Returns a list of all the matches of the user."""
         return self._match_history
+    
+    def get_hero_history(self):
+        """Returns a list of all the matches of the user, with all the heroes present in each game."""
+        return self._hero_history
 
     def get_avatar(self):
         """Returns a link to the user avatar."""
@@ -29,7 +40,7 @@ class user():
     def get_username(self):
         """Gets the display name of the user."""
         return self.get_profile()["personaname"]
-        
+
     def total_playtime(self):
         """Returns the total hours of in-game playtime."""
         # Seconds to hours
@@ -44,33 +55,40 @@ class user():
         return float(format(60 * self.total_playtime() / self.match_count(), ".1f"))
 
     def get_recent_match(self, hero):
-        """Gets the ID of the most recent match where the hero was present in any time."""
-        for game in self.get_match_history():  # TODO: Improve this function with a single check
+        """Gets the most recent match where the hero was present in any time."""
+        for game in self.get_hero_history():  # TODO: Improve this function with a single check
             for hero_slot in game["heroes"]:
                 if game["heroes"][hero_slot]["hero_id"] == hero.get_heroID():
-                    return match(game["match_id"])
-    
-    def find_rarest_hero(self):
-        """Checks which hero haven't you seen in one of your games (in both teams) for the longest time"""
+                    return match(game["match_id"], user=self)
+
+    def find_rarest_heroes(self):
+        """Checks which heroes haven't you seen in one of your games (in both teams) for the longest time"""
         hero_id_list = []
-        for game in self.get_match_history():
+        for game in self.get_hero_history():
             for hero_slot in game["heroes"]:
                 if game["heroes"][hero_slot]["hero_id"] not in hero_id_list:
                     # Adds all heroes to the list sequentially, being the last in the list the one you haven't seen in the longest time
                     hero_id_list.append(game["heroes"][hero_slot]["hero_id"])
-        try: # If there's a 0 in the list, remove it.
+        try:  # If there's a 0 in the list, remove it.
             hero_id_list.remove(0)
-        except ValueError:
+        except ValueError:  # If there isn't, just ignore it.
             pass
-        return hero(hero_id_list[-1])
+        return [hero(rare_hero) for rare_hero in hero_id_list]
 
+    def find_least_seen_heroes(self):
+        """Returns an ordered list of the ID's of the heroes you've seen the least in all your games."""
+        times_hero_seen = defaultdict(int)
+        for game in self.get_hero_history():
+            for hero_slot in game["heroes"]:
+                times_hero_seen[int(game["heroes"][hero_slot]["hero_id"])] += 1
+        return [(hero(least_hero), times_seen) for least_hero, times_seen in sorted(times_hero_seen.items(), key=lambda x: x[1]) if least_hero != 0]
 
 
 class hero():
     def __init__(self, heroID):
-        self._constant_data = requests.get(
-            "https://raw.githubusercontent.com/odota/dotaconstants/master/build/heroes.json").json()[str(heroID)]
-
+        with open(f"{dirname(realpath(__file__))}/static/json/heroes.json", "r") as hero_json:
+            self._constant_data = json.load(hero_json)[str(heroID)]
+        
     def get_constant_data(self):
         """returns the data gathered by opendota about the hero."""
         return self._constant_data
@@ -89,8 +107,14 @@ class hero():
 
 
 class match():
-    def __init__(self, matchID):
-        self._opendota_data = requests.get(f"https://api.opendota.com/api/matches/{matchID}").json()
+    def __init__(self, matchID, user=None):
+        if user == None:
+            self._opendota_data = requests.get(
+                f"https://api.opendota.com/api/matches/{matchID}").json()
+            print("API Request made (match self._opendota_data)")
+        else:
+            self._opendota_data = next(match for match in user.get_match_history() if match["match_id"] == matchID)
+
 
     def get_opendota_data(self):
         """Returns the data gathered by opendota about the match."""
@@ -105,11 +129,11 @@ class match():
     def get_opendota_link(self):
         """Returns a link to the match in opendota."""
         return f"https://www.opendota.com/matches/{self.get_match_ID()}"
-        
+
     def get_match_date(self):
-        """Returns the date of the match, in format """ #'TODO: Fill format example
+        """Returns the date of the match, in format """  # 'TODO: Fill format example
         return datetime.fromtimestamp(self.get_match_timestamp()).strftime("%d %B, %Y")
-    
+
     def get_match_time_difference(self):
         """Returns the time difference in days between the match date and the current time."""
         return int((int(datetime.now().timestamp()) - self.get_match_timestamp()) / (3600 * 24))

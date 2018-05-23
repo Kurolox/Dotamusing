@@ -1,36 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta charset="utf-8">
-    <title>Dotamusing</title>
-    <meta name="description" content="Find curious statistics about your DotA profile">
-    <meta name="author" content='Carlos "Kurolox" Gomez'>
-
-    <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-    <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
-    <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png')}}">
-
-</head>
+{% extends 'template.html' %} {% import 'macros.html' as macro %} {% block scripts %}
+<script src="{{url_for('static', filename='js/test.js')}}"></script> {% endblock %} {% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}"> {% endblock %} {% block body %}
 
 <body>
-
     <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
@@ -54,7 +26,7 @@
     </div>
 
     <div class="container main-content">
-        <div class="one-half column left-column">
+        <div class="one-half column">
             <div class="box">
                 <h3 class="box-title">
                     You've played for
@@ -65,35 +37,70 @@
                         <h2 class="box-flask">{{ profile.total_playtime() }} hours</h2>
                     </div>
                     {% endif %}
-                    <p class="box-description"> in total, over the course of {{ profile.match_count() }} games. Your match length average is
-                        {{ profile.average_playtime() }} minutes.</p>
+                    <p class="box-description"> in total, over the course of {{ profile.match_count() }} games. Your match length average is {{ profile.average_playtime()
+                        }} minutes.</p>
+                </div>
+            </div>
+
+
+            <div class="box">
+                {% set least_seen_list = profile.find_least_seen_heroes()[:5] %}
+                <h3 class="box-title">
+                    You don't see them very often
+                </h3>
+                <div class="box-content">
+                    <div class="box-flask image-and-text">
+                        <img class="portrait-image" src="{{ least_seen_list[0][0].get_hero_portrait() }}">
+                        <h2 class="box-flask">{{ least_seen_list[0][0].get_hero_name() }}</h2>
+                    </div>
+                    <p class="box-description"> Has been a rare sight in your games. In all of your DotA games, you've only seen it on {{ least_seen_list[0][1]
+                        }} of your games ({{ (least_seen_list[0][1] / profile.match_count() * 100) | round(2) }}% of your total games). Here's a list with other heroes you don't see a lot.
+                    </p>
+                    <ul class="box-list">
+                        {% for least_hero in least_seen_list[1:] %}
+                        <li class="box-list-element">
+                            <img class="portrait-image" src="{{ least_hero[0].get_hero_portrait() }}">
+                            <h5>{{ least_hero[0].get_hero_name() }} ({{least_hero[1]}} games, {{ (least_hero[1] / profile.match_count() * 100)  | round(2) }}%)</h4>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="one-half column right-column">
+
+
+        <div class="one-half column">
             <div class="box">
                 <h3 class="box-title">
                     Remember the last time you saw...
                 </h3>
                 <div class="box-content">
-                    {% if profile %}
-                    {% set rarest_hero = profile.find_rarest_hero() %}
+                    {% if profile %} {% set rarest_hero_list = profile.find_rarest_heroes()[-5:][::-1] %}
                     <div class="box-flask image-and-text">
-                        <img class="portrait-image" src="{{ rarest_hero.get_hero_portrait() }}">
-                        <h2 class="box-flask">{{ rarest_hero.get_hero_name() }}?</h2>
+                        <img class="portrait-image" src="{{ rarest_hero_list[0].get_hero_portrait() }}">
+                        <h2 class="box-flask">{{ rarest_hero_list[0].get_hero_name() }}?</h2>
                     </div>
-
-                    {% set most_recent_match = profile.get_recent_match(profile.find_rarest_hero()) %}
-                    <p class="box-description"> The last time you saw it on one of your games was on {{ most_recent_match.get_match_date() }}, and
-                        that was {{ most_recent_match.get_match_time_difference() }} days ago!
-                        <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID }}">Here's the link to the game.</a>
+                    {% set most_recent_match = profile.get_recent_match(rarest_hero_list[0]) %}
+                    <p class="box-description"> The last time you saw it on one of your games was on {{ most_recent_match.get_match_date() }}, and that
+                        was {{ most_recent_match.get_match_time_difference() }} days ago!
+                        <a href="https://www.opendota.com/matches/{{ most_recent_match.get_match_ID() }}">Here's the link to the game.</a>
                     </p>
+                    <ul class="box-list">
+                        {% for hero in rarest_hero_list[1:] %}
+                        <a href="{{profile.get_recent_match(hero).get_opendota_link()}}">
+                            <li class="box-list-element">
+                                <img class="portrait-image" src="{{ hero.get_hero_portrait() }}">
+                                <h5>{{ hero.get_hero_name() }} ({{ profile.get_recent_match(hero).get_match_time_difference()
+                                    }} days)</h4>
+                            </li>
+                        </a>
+                        {% endfor %}
+                    </ul>
                     {% endif %}
                 </div>
             </div>
         </div>
-
     </div>
     <footer>
         <p class="footer-text">Made by Kurolox. This is an open source project,
@@ -102,8 +109,8 @@
             <a href="https://www.opendota.com/api-keys">More info here.</a>
         </p>
     </footer>
-    <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
+<!-- End Document
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-</html>
+{% endblock %}
